@@ -3,7 +3,12 @@
  * @return {number[]} - An array where each element is the product of all elements except itself.
  */
 function productExceptSelf(nums) {
-  // Your code here
+  const result = []
+
+  const product = nums.reduce((acc, cur) => cur !== 0 ? acc * cur : acc, 1)
+
+  return nums.map(x => x !== 0 ? product / x : 0) 
+
 }
 
 console.log(productExceptSelf([1, 2, 3, 4]));
