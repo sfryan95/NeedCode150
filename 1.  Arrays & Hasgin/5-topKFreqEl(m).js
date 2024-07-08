@@ -12,19 +12,20 @@ function topKFrequent(nums, k) {
 
   // Create an array of buckets where the index is the frequency
   const buckets = Array(nums.length + 1).fill().map(() => []);
- 
+
   for (const num in freqCount) {
     buckets[freqCount[num]].push(Number(num))
   }
-
+  
   // Collect the top K frequent elements
   const result = [];
   for (let i = buckets.length - 1; i >= 0 && result.length < k; i--) {
     if (buckets[i].length > 0) {
       result.push(...buckets[i])
     }
+    if (result.length === k) return result;
   }
-  return result.slice(0, k); // Ensure only the top K elements are returned
+  
 }
 
 console.log(topKFrequent([1, 1, 1, 2, 2, 3], 2));
