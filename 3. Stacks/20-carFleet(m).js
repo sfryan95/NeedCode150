@@ -5,7 +5,29 @@
  * @return {number} - Returns the number of different car fleets that will arrive at the destination.
  */
 function carFleet(target, position, speed) {
-  // Implementation here
+  // Initialize an array to store pairs of (position, time to reach target).
+  const posSpeed = position.map((pos, i) => [pos, (target - pos) / speed[i]]);
+
+  // Sort the array based on the position of the cars in descending order.
+  const sortedArr = posSpeed.sort((pair1, pair2) => pair2[0] - pair1[0]);
+
+  // Initialize a variable to count the number of fleets.
+  let fleets = 0;
+  // Initialize a variable to keep track of the latest time a fleet reaches the target.
+  let latestTime = 0;
+
+  // Iterate through the sorted array.
+  for (let i = 0; i < sortedArr.length; i++) {
+    // If the time to reach the target for the current car is greater than the latest time, it means this car forms a new fleet.
+    if (sortedArr[i][1] > latestTime) {
+      // Update the latest time with the time for the current car.
+      latestTime = sortedArr[i][1];
+      // Increment the fleet count.
+      fleets++;
+    }
+  }
+  // Return the number of fleets.
+  return fleets;
 }
 
 // Example usage and test cases:
