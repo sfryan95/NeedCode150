@@ -108,3 +108,39 @@ function solution(jsonData) {
 const jsonData = '[{"id": "0", "agent": "Derek Jordan", "unit": "#931", "description": "ornate , ornate and gorgeous studio in the heart of midtown!", "num_bedrooms": 1}, {"id": "1", "agent": "John Smith", "unit": "#184", "description": "This small studio is located on the second of a nice building in midtown!", "num_bedrooms": 1}, {"id": "2", "agent": "Paul Martinez", "unit": "#596", "description": "cheap art is close by the 1-bedroom!", "num_bedrooms": 1}, {"id": "3", "agent": "Nicholas North", "unit": "#544", "description": "studio has big fridge and it is perfect for a man.", "num_bedrooms": 1}, {"id": "4", "agent": "Fred Shawler", "unit": "#917", "description": "comfortable , small and renovated apartment in the heart of midtown!", "num_bedrooms": 0}, {"id": "5", "agent": "Evan Williams", "unit": "#348", "description": "What a good deal for this ornate and cheap studio!", "num_bedrooms": 1}, {"id": "6", "agent": "Evan Williams", "unit": "#467", "description": "The studio is 15 min walking distance to yoga studio.", "num_bedrooms": 1}]';
 
 console.log(solution(jsonData)); // Expected [0, 0, 1, 0, 0, 0, 0]
+
+
+function StringChallenge(str) {
+  // __define-ocg__
+  const varOcg = str.split(' ');
+  const pattern = varOcg[0];
+  const testStr = varOcg[1];
+  let regexPattern = '';
+  let i = 0;
+
+  while (i < pattern.length) {
+    if (pattern[i] === '+') {
+      regexPattern += '[a-zA-Z]';
+    } else if (pattern[i] === '*') {
+      if (i + 1 < pattern.length && pattern[i + 1] === '{') {
+        let j = i + 2;
+        while (j < pattern.length && pattern[j] !== '}') {
+          j++;
+        }
+        let N = parseInt(pattern.substring(i + 2, j));
+        regexPattern += `([a-zA-Z])\\1{${N - 1}}`;
+        i = j;
+      } else {
+        regexPattern += '([a-zA-Z])\\1{2}';
+      }
+    }
+    i++;
+  }
+
+  let regex = new RegExp('^' + regexPattern + '$');
+  return regex.test(testStr) ? 'true' : 'false';
+}
+
+// Example usage
+console.log(StringChallenge("+++++* abcdemmmmmm"));  // Expected output: "false"
+console.log(StringChallenge("**+*{2} mmmrrrkbb"));   // Expected output: "true"
